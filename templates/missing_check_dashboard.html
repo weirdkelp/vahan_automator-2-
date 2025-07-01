@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Missing Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .form-container { max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; padding: 2rem; }
+        .missing-list { background: #fff; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.07); padding: 1.5rem; }
+    </style>
+</head>
+<body>
+<div class="container py-4">
+    <h1 class="mb-4">Check Missing Data</h1>
+    <div class="form-container mb-4">
+        <form method="post">
+            <div class="mb-3">
+                <label for="folder" class="form-label">Select Output Folder</label>
+                <select class="form-select" id="folder" name="folder" required>
+                    <option value="">-- Select Folder --</option>
+                    {% for folder in folders %}
+                        <option value="{{ folder }}" {% if folder == selected %}selected{% endif %}>{{ folder }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Check Missing</button>
+        </form>
+    </div>
+    {% if selected %}
+        <div class="mb-4">
+            <h5>Folder: <span class="text-primary">{{ selected }}</span></h5>
+            {% if folder_range and folder_range[0] %}
+                <p>Date Range: <strong>{{ folder_range[0] }} {{ folder_range[1] }}</strong> to <strong>{{ folder_range[2] }} {{ folder_range[3] }}</strong></p>
+            {% endif %}
+        </div>
+        <div class="missing-list">
+            <h4>Missing Data</h4>
+            {% if missing %}
+                <ul class="list-group">
+                    {% for item in missing %}
+                        <li class="list-group-item">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-success">No missing data in this folder for the selected range!</div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html> 
