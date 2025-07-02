@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: vahan-automator
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn web_service:app
+    pythonVersion: 3.10 
